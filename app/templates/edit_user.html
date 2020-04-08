@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container systemstyle">
+        <div class="panel float-left">
+
+            <form action="" method="post">
+                  {{ form.hidden_tag() }}
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      {{ form.username.label }}<br>
+                      {{ form.username }}<br>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      {{ form.usergroup.label }}<br>
+                      {{ form.usergroup }}<br>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      {{ form.userenabled.label }}<br>
+                      {{ form.userenabled }}<br>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                    <input class="btn btn-success" type="submit" name="submit" value="Save User Details"/>
+                    </div>
+                  </div>
+              </form>
+
+            <form action="" method="post">
+              <div style="height: 300px; overflow-y: scroll; margin-bottom:30px;">
+              <table class="table table-striped">
+              <tbody>
+                <tr>
+                    <th class="w-20">Project Number</th>
+                    <th class="w-20">Project Name</th>
+                    <th class="w-30">Employee Name</th>
+                    <th class="w-20">Enabled</th>
+                    <th class="w-20">Edit</th>
+                </tr>
+
+              {% for item in data %}
+                <tr>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>{{ item[5] }}</td>
+                    <td><input type="checkbox" name="enabled_id" value="{{item[0]}}" {% if item[4]==form.userid.data %}checked{% endif %}/></td>
+                    <td>{% if item[4] != None %}<a href="/project_employee/{{ item[0] }}/{{ item[4] }}">Edit Employee</a>{% endif %}</td>
+                </tr>
+
+              {% endfor %}
+              </tbody>
+              </table>
+              </div>
+              <input class="btn btn-success" type="submit" name="projects" value="Save Projects"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}

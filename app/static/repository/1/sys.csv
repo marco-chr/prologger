@@ -1,0 +1,13 @@
+id,name
+1,HVAC
+2,DCS
+3,EMS
+4,CS
+5,WFI
+6,PW
+7,ELE
+8,ACP
+9,watchdog
+18,EMS
+20,BMS
+21,network1

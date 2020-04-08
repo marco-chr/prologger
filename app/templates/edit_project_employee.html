@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container float-left" style="width: 400px;">
+
+        <form action="" method="post">
+              {{ form.hidden_tag() }}
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  {{ form.project_employee.label }}<br>
+                  {{ form.project_employee }}<br>
+                </div>
+              </div>
+              <input class="btn btn-success" type="submit" name="submit" value="Edit"/>
+        </form>
+
+    </div>
+{% endblock %}

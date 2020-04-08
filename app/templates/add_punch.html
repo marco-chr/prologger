@@ -1,0 +1,223 @@
+{% extends "base_punch.html" %}
+{% block content %}
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Attachments</p>
+
+    <table class="table">
+            <tbody>
+            <tr>
+                <th class="w-30">Name</th>
+                <th class="w-5">Link</th>
+            </tr>
+            {% for item in att_data %}
+            <tr>
+            <td>{{ item[0] }}</td>
+            <td><a href="{{ url_for('static', filename=item[1])}}" target="_blank">Open</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+    </table>
+
+
+  </div>
+
+</div>
+
+<div class="container">
+    <div class="float-left panel" style="overflow: auto;">
+
+        <form action="" method="post" id="edit_punch">
+              {{ form.hidden_tag() }}
+              <div class="form-row">
+                <div class="form-group col-sm-2">
+                  {{ form.punch_id.label }}<br>
+                  {{ form.punch_id(size=8) }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.punch_closure_c.label }}<br>
+                  {{ form.punch_closure_c }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.punch_closure_e.label }}<br>
+                  {{ form.punch_closure_e }}<br>
+                </div>
+                <div class="form-group custom-control custom-checkbox col-sm-2">
+                  {{ form.punch_status.label }}<br>
+                  {{ form.punch_status }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-4">
+                  {{ form.punch_discipline.label }}<br>
+                  {{ form.punch_discipline }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-2">
+                  {{ form.punch_system.label }}<br>
+                  {{ form.punch_system }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+              <div class="form-group col-sm-3">
+                  {{ form.punch_floor.label }}<br>
+                  {{ form.punch_floor }}<br>
+                </div>
+                <div class="form-group col-sm-3">
+                  {{ form.punch_cat.label }}<br>
+                  {{ form.punch_cat }}<br>
+                </div>
+                <div class="form-group col-sm-3">
+                  {{ form.punch_building.label }}<br>
+                  {{ form.punch_building }}<br>
+                </div>
+                <div class="form-group col-sm-3">
+                  {{ form.punch_phase.label }}<br>
+                  {{ form.punch_phase }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-4">
+                  {{ form.punch_origin_c.label }}<br>
+                  {{ form.punch_origin_c }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.punch_origin_e.label }}<br>
+                  {{ form.punch_origin_e }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.punch_supplier.label }}<br>
+                  {{ form.punch_supplier }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.punch_closed_by.label }}<br>
+                  {{ form.punch_closed_by }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  {{ form.punch_desc.label }}<br>
+                  {{ form.punch_desc(cols="100", rows="6") }} <br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  {{ form.punch_comments.label }}<br>
+                  {{ form.punch_comments(cols="100", rows="6") }}<br>
+                </div>
+              </div>
+               <div class="form-row">
+                <div class="form-group col-sm-3">
+                  {{ form.punch_orig_date.label }}<br>
+                  {{ form.punch_orig_date }}<br>
+                </div>
+                <div class="form-group col-sm-3">
+                  {{ form.punch_due_date.label }}<br>
+                  {{ form.punch_due_date }}<br>
+                </div>
+
+
+
+
+              </div>
+              <input class="btn btn-success" type="submit" name="submit" value="Add"/>
+        </form>
+
+    </div>
+
+    <script type="text/javascript" charset="utf-8">
+
+        $('#punch_closure_c').on('change', function() {
+
+            $("#punch_closure_e").empty();
+
+            punch_closure_c_text = $("#punch_closure_c option:selected").text();
+            punch_closure_c_val = $("#punch_closure_c option:selected").val();
+
+            $.getJSON('/_parse_employees', {
+                a: punch_closure_c_text
+            }, function(data) {
+                var options = $("#punch_closure_e");
+                $.each(data, function() {
+                    options.append($("<option />").val(this).text(this));
+                });
+            });
+
+        });
+
+
+        // code for updating employee list when changing company selection
+        $('#punch_origin_c').on('change', function() {
+
+            $("#punch_origin_e").empty();
+
+            punch_origin_c_text = $("#punch_origin_c option:selected").text();
+            punch_origin_c_val = $("#punch_origin_c option:selected").val();
+
+            $.getJSON('/_parse_employees', {
+                a: punch_origin_c_text
+            }, function(data) {
+                var options = $("#punch_origin_e");
+                $.each(data, function() {
+                    options.append($("<option />").val(this).text(this));
+                });
+            });
+
+        });
+
+        // date picker for due date dialog
+        $( function() {
+            $( "#punch_due_date" ).datepicker();
+        } );
+
+        // if punch is closed, then all fields are disabled
+        $(document).ready(function(){
+
+           if (document.getElementById("punch_status").checked) {
+            $("#edit_punch :input").prop("disabled", true);
+           }
+
+           // building correct href link for file upload route
+           var str = window.location.pathname;
+           var pos = str.lastIndexOf("/");
+           var current_id = str.slice(pos+1);
+           document.getElementById("upload_link1").href = "../../upload/" + current_id;
+
+        });
+
+        // MODAL SECTION
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function() {
+          modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+
+    </script>
+</div>
+{% endblock %}

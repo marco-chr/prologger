@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container float-left" style="width: 400px;">
+
+        <form action="" method="post">
+              {{ form.hidden_tag() }}
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  {{ form.companycode.label }}<br>
+                  {{ form.companycode(size=10) }}<br>
+                </div>
+                <div class="form-group col-md-6">
+                  {{ form.companyname.label }}<br>
+                  {{ form.companyname(size=50) }}<br>
+                </div>
+              </div>
+              <div class="form-group">
+                  {{ form.companytype.label }}<br>
+                  {{ form.companytype }}<br>
+              </div>
+              <div class="form-group">
+                  {{ form.companyaddress1.label }}<br>
+                  {{ form.companyaddress1(size=25) }}<br>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  {{ form.companyaddress2.label }}<br>
+                  {{ form.companyaddress2(size=25) }}<br>
+                </div>
+                <div class="form-group col-md-4">
+                  {{ form.companycity.label }}<br>
+                  {{ form.companycity(size=25) }}<br>
+                </div>
+                <div class="form-group col-md-2">
+                  {{ form.companycountry.label }}<br>
+                  {{ form.companycountry(size=25) }}<br>
+                </div>
+              </div>
+              <div class="form-group">
+                  {{ form.companydivision.label }}<br>
+                  {{ form.companydivision(size=25) }}<br>
+              </div>
+              <div class="form-row">
+                  <div class="form-group col-sm-6">
+                      {{ form.companynotes.label }}<br>
+                      {{ form.companynotes(cols="100", rows="5") }}<br>
+                  </div>
+              </div>
+              <div class="form-group">
+                  {{ form.companyemail1.label }}<br>
+                  {{ form.companyemail1(size=50) }}<br>
+              </div>
+              <div class="form-group">
+                  {{ form.companyemail2.label }}<br>
+                  {{ form.companyemail2(size=50) }}<br>
+              </div>
+              <div class="form-group">
+                  {{ form.companysendmail.label }}<br>
+                  {{ form.companysendmail }}<br>
+              </div>
+              <div class="form-group">
+                  {{ form.companyfrequency.label }}<br>
+                  {{ form.companyfrequency }}<br>
+              </div>
+
+              <input class="btn btn-success" type="submit" name="submit" value="Add"/>
+        </form>
+
+    </div>
+{% endblock %}

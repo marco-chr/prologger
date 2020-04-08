@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container systemstyle">
+        <div class="panel float-left systemstyle">
+
+        <div style="height: 400px; overflow-y: scroll; margin-bottom:30px;">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                <th class="w-5">Edit</th>
+                <th class="w-20">Company ID</th>
+                <th class="w-30">Company Name</th>
+                <th class="w-30">Type</th>
+                <th class="w-30">Division</th>
+                </tr>
+            {% for item in data %}
+
+                <tr>
+                <td><a href="/company/{{ item.id}}">Edit</a></td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.type }}</td>
+                <td>{{ item.division }}</td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <a class="btn btn-primary" href="{{ url_for('add_company') }}" role="button">Add New</a>
+
+        </div>
+    </div>
+{% endblock %}

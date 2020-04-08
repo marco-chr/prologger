@@ -1,0 +1,88 @@
+<html>
+    <head>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css')}}">
+
+        <!-- JQuery Javascript -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <!-- Datatables CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.min.css')}}">
+
+        <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/sticky-footer-navbar.css')}}">
+
+        <!-- DataTables Javascript -->
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+        <script src="{{ url_for('static', filename='js/datatables.min.js')}} "></script>
+        <script src="{{ url_for('static', filename='js/ColReorderWithResize.js')}} "></script>
+
+        <!-- Custom Javascript -->
+        <script id="datatable" punchlist_user="{{ current_user.username }}" src="{{ url_for('static', filename='js/test.js')}}"></script>
+
+        {% if title %}
+        <title>{{ title }} - PROLOGGER</title>
+        {% else %}
+        <title>Welcome to Prologger</title>
+        {% endif %}
+
+
+    </head>
+
+    <body>
+          <header>
+          <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+          <a class="navbar-brand" href="#">
+              <img src="{{ url_for('static', filename='images/pl_logo.png')}}" width="30" height="30" class="d-inline-block align-top" alt="">
+              Prologger
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+              </li>
+
+              {% if current_user.is_anonymous %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+              </li>
+              {% endif %}
+            </ul>
+
+          </div>
+        </nav>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+        </header>
+    </body>
+    <footer class="footer">
+      <div>
+          <span>
+              <img src="{{ url_for('static', filename='images/sl_logo.png')}}" width="135" height="30" alt="">
+              © 2019 Copyright Shadow & Light Inc.
+          </span>
+      </div>
+    </footer>
+</html>

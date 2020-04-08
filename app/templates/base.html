@@ -1,0 +1,232 @@
+<html>
+    <head>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css')}}">
+
+        <!-- JQuery Javascript -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <!-- Datatables CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables-custom.css')}}">
+
+        <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+
+        <!-- DataTables Javascript -->
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+        <script src="{{ url_for('static', filename='js/datatables.min.js')}} "></script>
+        <script src="{{ url_for('static', filename='js/ColReorderWithResize.js')}} "></script>
+
+        <!-- Custom Javascript -->
+        <script id="datatable" punchlist_user="{{ current_user.username }}" src="{{ url_for('static', filename='js/test.js')}}"></script>
+
+        <script language="javascript">
+            $(document).ready(function() {
+                $("#toggle-btn").click(function() {
+                    $("#filter").toggle();
+                });
+            });
+
+            <!-- navbar transparent to solid -->
+
+            $(function () {
+            $(window).on('scroll', function () {
+
+            if ( $(window).scrollTop() > 30 ) {
+                $('.navbar').addClass('active');}
+            else {
+                $('.navbar').removeClass('active');}
+ 	        });
+ 	        });
+        </script>
+
+        {% if title %}
+        <title>{{ title }} - PROLOGGER</title>
+        {% else %}
+        <title>Welcome to Prologger</title>
+        {% endif %}
+        <link rel="icon" href="../static/images/pl_logo.png" type="image/png" />
+
+    </head>
+
+    <body>
+          <header>
+          <nav class="navbar navbar-expand-lg fixed-top">
+          <a class="navbar-brand" href="#">
+              <img src="{{ url_for('static', filename='images/pl_logo.png')}}" width="30" height="30" class="d-inline-block align-top" alt="prologger_logo">
+              Prologger
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbartarget" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span>
+                <i class="fa fa-bars hamburger"></i>
+            </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbartarget">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+              </li>
+
+              {% if current_user.is_anonymous %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+              </li>
+
+              {% elif current_user and current_user.is_user() %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('about') }}">About</a>
+              </li><li class="nav-item">
+                <a class="nav-link" href="{{ url_for('select_project') }}">Select Project</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Punchlist
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/punchlist/1">All</a>
+                <a class="dropdown-item" href="/punchlist/2">Open items</a>
+                <a class="dropdown-item" href="/punchlist/3">Closed items</a>
+                <a class="dropdown-item" href="/punchlist/4">Assigned to me</a>
+                <a class="dropdown-item" href="/punchlist/5">Assigned to my company</a>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('companies') }}">Companies</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('employees') }}">Employees</a>
+              </li>
+
+              {% elif current_user and current_user.is_admin() %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('about') }}">About</a>
+              </li>
+              </li><li class="nav-item">
+                <a class="nav-link" href="{{ url_for('select_project') }}">Select Project</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Punchlist
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/punchlist/1">All</a>
+                    <a class="dropdown-item" href="/punchlist/2">Open items</a>
+                    <a class="dropdown-item" href="/punchlist/3">Closed items</a>
+                    <a class="dropdown-item" href="/punchlist/4">Assigned to me</a>
+                    <a class="dropdown-item" href="/punchlist/5">Assigned to my company</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('companies') }}">Companies</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('employees') }}">Employees</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('systems') }}">Systems</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('buildings') }}">Buildings</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('floors') }}">Floors</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('categories') }}">Categories</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('phases') }}">Phases</a>
+              </li>
+
+              {% elif current_user and current_user.is_root() %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('adminpanel') }}">Admin Panel</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('add_project') }}">Add Project</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('projects') }}">Projects</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('utils') }}">Utils</a>
+              </li>
+              {% endif %}
+            </ul>
+
+            {% if current_user.is_anonymous %}
+            {% elif (current_user and current_user.is_admin()) or (current_user and current_user.is_user()) %}
+            <!-- Non-collapsing right-side icons -->
+            <ul class="nav navbar-nav navbar-right">
+               <li>
+                 <a href="{{ url_for('add_punch') }}" class="fa fa-plus-square"></a>
+               </li>
+               <li>
+                 <a id="toggle-btn" class="fa fa-filter"></a>
+               </li>
+               <li>
+                 <a href="{{ url_for('files') }}" class="fa fa-folder-open"></a>
+               </li>
+               <li>
+                 <a href="{{ url_for('pdf_report') }}" class="fa fa-file-pdf-o"></a>
+               </li>
+               <li>
+                 <a href="{{ url_for('logout') }}" class="fa fa-sign-out"></a>
+               </li>
+            </ul>
+            {% elif (current_user and current_user.is_root()) %}
+            <!-- Non-collapsing right-side icons -->
+            <ul class="nav navbar-nav navbar-right">
+               <li>
+                 <a href="{{ url_for('files') }}" class="fa fa-folder-open"></a>
+               </li>
+               <li>
+                 <a href="{{ url_for('pdf_report') }}" class="fa fa-file-pdf-o"></a>
+               </li>
+               <li>
+                 <a href="{{ url_for('logout') }}" class="fa fa-sign-out"></a>
+               </li>
+            </ul>
+            {% endif %}
+
+          </div>
+        </nav>
+
+        </header>
+
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="container">
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </body>
+    <footer class="footer fixed-bottom">
+      <div>
+          <span>
+              <img src="{{ url_for('static', filename='images/sl_logo.png')}}" width="135" height="30" alt="">
+              © 2019 Copyright Shadow & Light Inc.
+          </span>
+      </div>
+    </footer>
+</html>

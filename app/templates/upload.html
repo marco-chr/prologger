@@ -1,0 +1,35 @@
+{% extends "base_upload.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <form method="post" action="" enctype="multipart/form-data">
+        <dl>
+		<p>
+			<input type="file" name="file" multiple="false" autocomplete="off" required>
+		</p>
+        </dl>
+        <p>
+		<input class="btn btn-success" type="submit" name="submit1" value="Upload attachment" style="width: 250px;">
+	    </p>
+        </form>
+
+        <a id="close_link" class="btn btn-success" href="#">Close upload</a>
+
+
+
+    </div>
+
+    <script>
+        $(document).ready(function(){
+
+           // building correct href link for file upload route
+           var str = window.location.pathname;
+           var pos = str.lastIndexOf("/");
+           var current_id = str.slice(pos+1);
+           document.getElementById("close_link").href = "/punchlist/edit/" + current_id;
+
+        });
+    </script>
+{% endblock %}

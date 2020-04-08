@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container float-left" style="width: 400px;">
+
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                <th class="w-5">Edit</th>
+                <th class="w-20">Project Number</th>
+                <th class="w-30">Project Name</th>
+                <th class="w-30">Region</th>
+                <th class="w-30">Manager</th>
+                </tr>
+            {% for item in data %}
+
+                <tr>
+                <td><a href="/project/{{ item.id}}">Edit</a></td>
+                <td>{{ item.number }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.region }}</td>
+                <td>{{ item.manager }}</td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+        <a class="btn btn-primary" href="{{ url_for('add_company') }}" role="button">Add New</a>
+    </div>
+{% endblock %}

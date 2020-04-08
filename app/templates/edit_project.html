@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="float-left panel" style="overflow: auto;">
+        <form action="" method="post">
+              {{ form.hidden_tag() }}
+              <div class="form-row">
+                <div class="form-group col-sm-2">
+                  {{ form.project_number.label }}<br>
+                  {{ form.project_number(size=8) }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.project_name.label }}<br>
+                  {{ form.project_name }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.project_business.label }}<br>
+                  {{ form.project_business }}<br>
+                </div>
+                <div class="form-group col-sm-2">
+                  {{ form.project_region.label }}<br>
+                  {{ form.project_region }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-2">
+                  {{ form.project_status.label }}<br>
+                  {{ form.project_status }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.project_manager.label }}<br>
+                  {{ form.project_manager }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-4">
+                  {{ form.project_start.label }}<br>
+                  {{ form.project_start }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.project_end.label }}<br>
+                  {{ form.project_end }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.project_value.label }}<br>
+                  {{ form.project_value }}<br>
+                </div>
+                <div class="form-group col-sm-4">
+                  {{ form.project_type.label }}<br>
+                  {{ form.project_type }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-6">
+                  {{ form.project_address.label }}<br>
+                  {{ form.project_address(cols="40", rows="6") }} <br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-8">
+                  {{ form.project_custom1_sel }}
+                  {{ form.project_custom1_name.label }}
+                  {{ form.project_custom1_name }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-8">
+                  {{ form.project_custom2_sel }}
+                  {{ form.project_custom2_name.label }}
+                  {{ form.project_custom2_name }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-8">
+                  {{ form.project_custom3_sel }}
+                  {{ form.project_custom3_name.label }}
+                  {{ form.project_custom3_name }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-8">
+                  {{ form.project_custom4_sel }}
+                  {{ form.project_custom4_name.label }}
+                  {{ form.project_custom4_name }}<br>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-8">
+                  {{ form.project_custom5_sel }}
+                  {{ form.project_custom5_name.label }}
+                  {{ form.project_custom5_name }}<br>
+                </div>
+              </div>
+              <input class="btn btn-success" type="submit" name="submit" value="Edit"/>
+        </form>
+        </div>
+    </div>
+
+    <script type="text/javascript" charset="utf-8">
+
+        $( function() {
+            $( "#project_start" ).datepicker();
+            $( "#project_end" ).datepicker();
+        } );
+
+    </script>
+{% endblock %}

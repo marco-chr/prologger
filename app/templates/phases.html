@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container systemstyle">
+        <div class="panel float-left systemstyle">
+
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                {{ form.phasename.label }}<br>
+                {{ form.phasename(size=25) }}<br>
+                {% for error in form.phasename.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+                <input class="btn btn-success" type="submit" name="submit1" value="Add"/>
+            </form>
+
+            <form action="" method="post">
+                <p>Select items to be deleted</p>
+                <div style="height: 400px; overflow-y: scroll; margin-bottom:30px;">
+                <table class="table table-striped">
+                <tbody>
+                    <tr>
+                    <th class="w-5">Delete</th>
+                    <th class="w-10">Phase</th>
+                    </tr>
+                {% for item in data %}
+
+                    <tr>
+                    <td><input type="checkbox" name="delete_id" value="{{ item.id}}"/></td>
+                    <td>{{ item.name }}</td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+                </table>
+                </div>
+                <input class="btn btn-danger" type="submit" name="delete" value="Delete"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}

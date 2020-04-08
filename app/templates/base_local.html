@@ -1,0 +1,117 @@
+<html>
+    <head>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="{{ url_for('static', filename='js/datatables.min.js')}} "></script>
+        <script src="{{ url_for('static', filename='js/ColReorderWithResize.js')}} "></script>
+        <script src="{{ url_for('static', filename='js/test.js')}} "></script>
+
+        {% if title %}
+        <title>{{ title }} - PROLOGGER</title>
+        {% else %}
+        <title>Welcome to Prologger</title>
+        {% endif %}
+    </head>
+    <body>
+
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">Prologger</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+              </li>
+              {% if current_user.is_anonymous %}
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+              </li>
+
+              {% elif current_user and current_user.is_user() %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('about') }}">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="{{ url_for('logout') }}">Logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('punchlist') }}">Punchlist</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('companies') }}">Companies</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('employees') }}">Employees</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('add_punch') }}">+++</a>
+              </li>
+
+              {% elif current_user and current_user.is_admin() %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('about') }}">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="{{ url_for('logout') }}">Logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('punchlist') }}">Punchlist</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('companies') }}">Companies</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('employees') }}">Employees</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('systems') }}">Systems</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('buildings') }}">Buildings</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('floors') }}">Floors</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('categories') }}">Categories</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('phases') }}">Phases</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('files') }}">Files</a>
+              </li>
+
+              {% elif current_user and current_user.is_root() %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('adminpanel') }}">Admin Panel</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="{{ url_for('logout') }}">Logout</a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    </body>
+</html>

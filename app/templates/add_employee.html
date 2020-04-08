@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container float-left" style="width: 400px;">
+
+        <form action="" method="post">
+              {{ form.hidden_tag() }}
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  {{ form.employeecontactid.label }}<br>
+                  {{ form.employeecontactid(size=10) }}<br>
+                </div>
+                <div class="form-group col-md-6">
+                  {{ form.employeedisplay.label }}<br>
+                  {{ form.employeecontactid(size=8) }}<br>
+                </div>
+              </div>
+              <div class="form-group">
+                  {{ form.employeefirst.label }}<br>
+                  {{ form.employeefirst(size=20) }}<br>
+              </div>
+              <div class="form-group">
+                  {{ form.employeemiddle.label }}<br>
+                  {{ form.employeemiddle(size=20) }}<br>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  {{ form.employeelast.label }}<br>
+                  {{ form.employeelast(size=20) }}<br>
+                </div>
+                <div class="form-group col-md-4">
+                  {{ form.employeetitle.label }}<br>
+                  {{ form.employeetitle(size=20) }}<br>
+                </div>
+                <div class="form-group col-md-2">
+                  {{ form.employeelocation.label }}<br>
+                  {{ form.employeelocation(size=20) }}<br>
+                </div>
+              </div>
+              <div class="form-group">
+                  {{ form.employeetelephone.label }}<br>
+                  {{ form.employeetelephone(size=20) }}<br>
+              </div>
+               <div class="form-group">
+                  {{ form.employeecell.label }}<br>
+                  {{ form.employeecell(size=20) }}<br>
+              </div>
+              <div class="form-group">
+                  {{ form.employeecompany.label }}<br>
+                  {{ form.employeecompany }}<br>
+              </div>
+              <input class="btn btn-success" type="submit" name="submit" value="Add"/>
+        </form>
+
+    </div>
+{% endblock %}

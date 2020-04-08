@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container systemstyle">
+        <div class="panel float-left">
+            <div style="height: 400px; overflow-y: scroll; margin-bottom:30px;">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                    <th class="w-5">Edit</th>
+                    <th class="w-5">User</th>
+                    <th class="w-5">Group</th>
+                    <th class="w-10">Enabled</th>
+                    </tr>
+                {% for item in data %}
+
+                    <tr>
+                    <td><a href="/user/{{ item.id }}">Edit</a></td>
+                    <td>{{ item.username }}</td>
+                    <td>{{ item.group }}</td>
+                    <td>{{ item.enabled }}</td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

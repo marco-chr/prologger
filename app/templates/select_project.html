@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container systemstyle">
+        <div class="panel float-left systemstyle">
+            <form action="" method="post">
+                <div>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                        <th class="w-5">Select</th>
+                        <th class="w-10">Project</th>
+                        </tr>
+                    {% for item in data %}
+
+                        <tr>
+                        <td><input type="radio" name="selected_project" value="{{item[0]}}"/></td>
+                        <td>{{item[2]}}</td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+                <input class="btn btn-danger" type="submit" name="submit" value="Select"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}
