@@ -139,30 +139,33 @@ def index():
 
     # define db project
     data = db.session.query(Projects_master).with_entities(Projects_master.filename).filter(Projects_master.id == str(current_user.get_project())).first()
-    session_db_name = data[0] + '.db'
 
     # get full path to project db name
-    current_project_db_path = os.path.join(app.config['BASEDIR'], session_db_name)
+    if data:
+        session_db_name = data[0] + '.db'
+        current_project_db_path = os.path.join(app.config['BASEDIR'], session_db_name)
+    else:
+        current_project_db_path = os.path.join(app.config['BASEDIR'], 'prologger_000.db')
+
     master_db_path = os.path.join(app.config['BASEDIR'], 'prologger_master.db')
 
-    # render index page with data
-    employee_id = dashboard_query(master_db_path, 0, current_user.get_project(), current_user.id)
+    if current_user.is_admin() or current_user.is_user():
 
-    # data_overall is relevant to current project
-    data_overall = dashboard_query(current_project_db_path, 1)
+        # render index page with data
+        employee_id = dashboard_query(master_db_path, 0, current_user.get_project(), current_user.id)
+        # data_overall is relevant to current project
+        data_overall = dashboard_query(current_project_db_path, 1)
+        # data_user is relevant to current user
+        data_user = dashboard_query(current_project_db_path, 2, current_user.get_project(), employee_id[0])
+        # data_system
+        data_system = dashboard_query(current_project_db_path,3)
+        # generate plot
+        index_plot(app.config['IMAGES_FOLDER'], data_overall)
 
-    # data_user is relevant to current user
-    data_user = dashboard_query(current_project_db_path, 2, current_user.get_project(), employee_id[0])
+        return render_template('index.html', title='Home', data0=project_name, data1=data_overall, data2=data_user, data3=data_system)
 
-    # data_system
-    data_system = dashboard_query(current_project_db_path,3)
-
-    # generate plot
-    index_plot(app.config['IMAGES_FOLDER'], data_overall)
-
-    # generate epoch number to add to image name
-
-    return render_template('index.html', title='Home', data0=project_name, data1=data_overall, data2=data_user, data3=data_system)
+    else:
+        return render_template('index.html', title='Home', data0=project_name, data1=None, data2=None, data3=('',''))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -457,6 +460,7 @@ def adminpanel():
 @app.route('/user/<int:id>', methods=['GET', 'POST'])
 @requires_access_level('admin')
 def edit_user(id):
+
     form = UserFormEdit()
     qry = db.session.query(Users).filter(Users.id == id)
     edituser = qry.first()
@@ -479,7 +483,7 @@ def edit_user(id):
         else:
             return 'Error loading #{id}'.format(id=id)
 
-    if request.method == 'POST' and request.form.get('submit') == 'Save User Details':
+    if request.method == 'POST' and request.form.get('submit') == 'Save User':
 
         edituser.group = form.usergroup.data
         edituser.enabled = form.userenabled.data
@@ -488,14 +492,16 @@ def edit_user(id):
         flash('User updated successfully!')
         return redirect(url_for('adminpanel'))
 
-    if request.method == 'POST' and request.form.get('projects') == 'Save Projects List':
+    if request.method == 'POST' and request.form.get('projects') == 'Save Projects':
             projects_ids = request.form.getlist('enabled_id')
+
+            print(projects_ids)
 
             # check for newly added projects
             for project_id in projects_ids:
 
                 if db.session.query(Projects_meta).filter(Projects_meta.project_id == project_id).filter(Projects_meta.user_allowed == id).first() is None:
-                    new_project = Projects_meta(project_id=project_id,user_allowed=id,employee_id=None)
+                    new_project = Projects_meta(project_id=project_id, user_allowed=id, employee_id=None)
                     db.session.add(new_project)
 
             # check for deselected projects
