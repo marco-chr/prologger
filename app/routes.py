@@ -1400,13 +1400,18 @@ def utils():
 
     if request.method == 'POST' and request.form.get('release_locks') == 'Release All Locks':
 
-        fileList = glob.glob(app.config['LOCK_PATH']+"*.lock")
 
-        for filePath in fileList:
+        folder = app.config['LOCK_PATH']
+        for filename in os.listdir(folder):
+            file_path = os.path.join(folder, filename)
             try:
-                os.remove(filePath)
-            except:
-                print("Error while deleting file : ", filePath)
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print('Failed to delete %s. Reason: %s' % (file_path, e))
+
         flash('Locks Released!')
         return redirect(url_for('utils'))
 
